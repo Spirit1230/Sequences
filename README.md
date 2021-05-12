@@ -1,3 +1,3 @@
 # Iterations
 
-Library with finctions designed to find different permutations and combinations of arrays
+Library with functions designed to find different permutations and combinations of arrays
