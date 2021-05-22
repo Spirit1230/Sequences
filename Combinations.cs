@@ -3,38 +3,25 @@ using System.Collections.Generic;
 
 namespace Iterations 
 {
-    public class Combinations 
+    static public class Combinations 
     {
-	public void Test() 
-        {
-            string[] testVals = new string[] {"APPLES", "PEARS", "ORANGES", "BANNANAS", "GRAPES", "AUBERGINE"};
-
-            foreach (string[] cond in FindAllCombinations(testVals)) 
-            {
-                Console.WriteLine(string.Join(" OR ", cond));
-            }
-        }
-
-        public List<string[]> FindAllCombinations(string[] allPosValues) 
+        static public List<string[]> FindAllCombinations(string[] allPosValues, int numChosen) 
         {
             List<string[]> posConds = new List<string[]>();
-
-            int maxNumConds = allPosValues.Length - 1;
-            int currentMaxConds = 1;
             
             int startPos = 0;
             int posIndex = startPos;
 
             int numFound = 0;
-            int totalComb = CalculateTotalCombinations(currentMaxConds, allPosValues.Length);
+            int totalComb = CalculateTotalCombinations(numChosen, allPosValues.Length);
 
             List<string> posCond = new List<string>();
 
-            while (currentMaxConds <= maxNumConds) 
+            while (numFound < totalComb) 
             {
                 string nextValue = allPosValues[posIndex++];
 
-                if (posCond.Count < currentMaxConds && !posCond.Contains(nextValue)) 
+                if (posCond.Count < numChosen && !posCond.Contains(nextValue)) 
                 {
                     posCond.Add(nextValue);
                 }
@@ -61,12 +48,12 @@ namespace Iterations
                         startPos = posInAllValues + 1;
                         posCond.Remove(valToRemove);
 
-                    } while (allPosValues.Length - startPos < currentMaxConds - posCond.Count);
+                    } while (allPosValues.Length - startPos < numChosen - posCond.Count);
 
                     posIndex = startPos;
                 }
 
-                if (posCond.Count == currentMaxConds)
+                if (posCond.Count == numChosen)
                 {
                     posConds.Add(posCond.ToArray());
                     posCond.RemoveAt(posCond.Count - 1);
@@ -77,28 +64,24 @@ namespace Iterations
                 {
                     posIndex = startPos;
                 }
-
-                if (numFound == totalComb) 
-                {
-                    numFound = 0;
-                    totalComb = CalculateTotalCombinations(++currentMaxConds, allPosValues.Length);
-                    startPos = 0;
-                    posIndex = startPos;
-                    posCond.Clear();
-                }
             }
 
             return posConds;
         }
 
-        public int CalculateTotalCombinations(int numChosen, int totalOptions) 
+        static public List<string[]> FindAllCombinationsWithRepeats(string[] allPosValues) 
+        {
+            return new List<string[]>();
+        }
+
+        static public int CalculateTotalCombinations(int numChosen, int totalOptions) 
         {
             int numComb = CalcFactorial(totalOptions) / (CalcFactorial(numChosen) * CalcFactorial(totalOptions - numChosen));
 
             return numComb;
         }
 
-        private int CalcFactorial(int n) 
+        static private int CalcFactorial(int n) 
         {
             int result = 1;
 
