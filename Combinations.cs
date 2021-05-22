@@ -5,9 +5,52 @@ namespace Iterations
 {
     static public class Combinations 
     {
-        static public List<string[]> FindAllCombinations(string[] allPosValues, int numChosen) 
+        static public string[][] GetCombinations(string[] allVals, int numChosen) 
         {
-            List<string[]> posConds = new List<string[]>();
+            int[][] allCombsInt = FindAllCombinations(ConvertToIntArray(allVals), numChosen);
+
+            List<string[]> allCombs = new List<string[]>();
+
+            foreach (int[] combInt in allCombsInt) 
+            {
+                allCombs.Add(ConvertToStringArr(combInt, allVals));
+            }
+
+            return allCombs.ToArray();
+        }
+
+        static public string[][] GetCombinationsWithRepeats(string[] allVals, int numChosen) 
+        {
+            return new string[0][];
+        }
+
+        static private int[] ConvertToIntArray(string[] stringArr) 
+        {
+            int[] intArr = new int[stringArr.Length];
+
+            for (int i = 0; i < stringArr.Length; i++) 
+            {
+                intArr[i] = i;
+            }
+
+            return intArr;
+        }
+
+        static private string[] ConvertToStringArr(int[] intArray, string[] stringArr) 
+        {
+            string[] convArr = new string[intArray.Length];
+
+            for (int i = 0; i < intArray.Length; i++) 
+            {
+                convArr[i] = stringArr[intArray[i]];
+            }
+
+            return convArr;
+        }
+
+        static private int[][] FindAllCombinations(int[] allPosValues, int numChosen) 
+        {
+            List<int[]> posConds = new List<int[]>();
             
             int startPos = 0;
             int posIndex = startPos;
@@ -15,11 +58,11 @@ namespace Iterations
             int numFound = 0;
             int totalComb = CalculateTotalCombinations(numChosen, allPosValues.Length);
 
-            List<string> posCond = new List<string>();
+            List<int> posCond = new List<int>();
 
             while (numFound < totalComb) 
             {
-                string nextValue = allPosValues[posIndex++];
+                int nextValue = allPosValues[posIndex++];
 
                 if (posCond.Count < numChosen && !posCond.Contains(nextValue)) 
                 {
@@ -27,7 +70,7 @@ namespace Iterations
                 }
                 else 
                 {
-                    string valToRemove;
+                    int valToRemove;
                     int posInAllValues;
 
                     do 
@@ -66,19 +109,41 @@ namespace Iterations
                 }
             }
 
-            return posConds;
+            return posConds.ToArray();
         }
 
-        static public List<string[]> FindAllCombinationsWithRepeats(string[] allPosValues) 
-        {
-            return new List<string[]>();
-        }
+        // static public List<string[]> FindAllCombinationsWithRepeats(string[] allPosValues, int numCond) 
+        // {
+        //     string[] allValsRep = new string[allPosValues.Length * numCond];
+
+        //     int index = 0;
+
+        //     foreach (string val in allPosValues) 
+        //     {
+        //         for (int rep = 0; rep < numCond; rep++) 
+        //         {
+        //             allValsRep[index++] = val;
+        //         }
+        //     }
+
+        //     return FindAllCombinations(allValsRep, numCond);
+        // }
 
         static public int CalculateTotalCombinations(int numChosen, int totalOptions) 
         {
-            int numComb = CalcFactorial(totalOptions) / (CalcFactorial(numChosen) * CalcFactorial(totalOptions - numChosen));
+            int calcTop = 1;
 
-            return numComb;
+            (int calcBot, int largestBotFact) = (numChosen > totalOptions - numChosen) ? (totalOptions - numChosen, numChosen) : (numChosen, totalOptions - numChosen);
+
+            for (int i = 1; i <= totalOptions; i++) 
+            {
+                if (i > largestBotFact) 
+                {
+                    calcTop *= i;
+                }
+            }
+
+            return calcTop / CalcFactorial(calcBot);
         }
 
         static private int CalcFactorial(int n) 
