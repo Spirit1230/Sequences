@@ -7,7 +7,7 @@ namespace Iterations
     {
         static public string[][] GetCombinations(string[] allVals, int numChosen) 
         {
-            int[][] allCombsInt = FindAllCombinations(ConvertToIntArray(allVals), numChosen);
+            int[][] allCombsInt = FindAllCombinations(ConvertToIntArray(allVals), numChosen, false);
 
             List<string[]> allCombs = new List<string[]>();
 
@@ -21,113 +21,17 @@ namespace Iterations
 
         static public string[][] GetCombinationsWithRepeats(string[] allVals, int numChosen) 
         {
-            return new string[0][];
-        }
+            int[][] allCombsInt = FindAllCombinations(ConvertToIntArray(allVals), numChosen, true);
 
-        static private int[] ConvertToIntArray(string[] stringArr) 
-        {
-            int[] intArr = new int[stringArr.Length];
+            List<string[]> allCombs = new List<string[]>();
 
-            for (int i = 0; i < stringArr.Length; i++) 
+            foreach (int[] combInt in allCombsInt) 
             {
-                intArr[i] = i;
+                allCombs.Add(ConvertToStringArr(combInt, allVals));
             }
 
-            return intArr;
+            return allCombs.ToArray();
         }
-
-        static private string[] ConvertToStringArr(int[] intArray, string[] stringArr) 
-        {
-            string[] convArr = new string[intArray.Length];
-
-            for (int i = 0; i < intArray.Length; i++) 
-            {
-                convArr[i] = stringArr[intArray[i]];
-            }
-
-            return convArr;
-        }
-
-        static private int[][] FindAllCombinations(int[] allPosValues, int numChosen) 
-        {
-            List<int[]> posConds = new List<int[]>();
-            
-            int startPos = 0;
-            int posIndex = startPos;
-
-            int numFound = 0;
-            int totalComb = CalculateTotalCombinations(numChosen, allPosValues.Length);
-
-            List<int> posCond = new List<int>();
-
-            while (numFound < totalComb) 
-            {
-                int nextValue = allPosValues[posIndex++];
-
-                if (posCond.Count < numChosen && !posCond.Contains(nextValue)) 
-                {
-                    posCond.Add(nextValue);
-                }
-                else 
-                {
-                    int valToRemove;
-                    int posInAllValues;
-
-                    do 
-                    {
-                        valToRemove = posCond[posCond.Count - 1];
-
-                        posInAllValues = 0;
-
-                        for (int i = 0; i < allPosValues.Length; i++) 
-                        {
-                            if (valToRemove == allPosValues[i]) 
-                            {
-                                posInAllValues = i;
-                                break;
-                            }
-                        }
-
-                        startPos = posInAllValues + 1;
-                        posCond.Remove(valToRemove);
-
-                    } while (allPosValues.Length - startPos < numChosen - posCond.Count);
-
-                    posIndex = startPos;
-                }
-
-                if (posCond.Count == numChosen)
-                {
-                    posConds.Add(posCond.ToArray());
-                    posCond.RemoveAt(posCond.Count - 1);
-                    numFound++;
-                }
-
-                if (posIndex >= allPosValues.Length) 
-                {
-                    posIndex = startPos;
-                }
-            }
-
-            return posConds.ToArray();
-        }
-
-        // static public List<string[]> FindAllCombinationsWithRepeats(string[] allPosValues, int numCond) 
-        // {
-        //     string[] allValsRep = new string[allPosValues.Length * numCond];
-
-        //     int index = 0;
-
-        //     foreach (string val in allPosValues) 
-        //     {
-        //         for (int rep = 0; rep < numCond; rep++) 
-        //         {
-        //             allValsRep[index++] = val;
-        //         }
-        //     }
-
-        //     return FindAllCombinations(allValsRep, numCond);
-        // }
 
         static public int CalculateTotalCombinations(int numChosen, int totalOptions) 
         {
@@ -163,6 +67,108 @@ namespace Iterations
             return calcTop / CalcFactorial(calcBot);
         }
 
+        static private int[][] FindAllCombinations(int[] allPosValues, int numChosen, bool allowRepeats = false) 
+        {
+            List<int[]> allCombs = new List<int[]>();
+
+            int[] posComb = new int[numChosen];
+
+            //assigns first combination intital combination
+            for (int pos = 0; pos < posComb.Length; pos++) 
+            {
+                if (allowRepeats) 
+                {
+                    posComb[pos] = 0;
+                }
+                else 
+                {
+                    posComb[pos] = pos;
+                }
+            }
+
+            allCombs.Add(CopyIntArr(posComb));
+
+            int posToUpdate = posComb.Length - 1;
+
+            while (posToUpdate >= 0) 
+            {
+                if (posComb[posToUpdate] + 1 < allPosValues.Length) 
+                {
+                    if (posToUpdate == posComb.Length - 1) 
+                    {
+                        posComb[posToUpdate]++;
+                        allCombs.Add(CopyIntArr(posComb));
+                    }
+                    else 
+                    {
+                        if (allowRepeats) 
+                        {
+                            int val = posComb[posToUpdate] + 1;
+
+                            for (int i = posToUpdate; i < posComb.Length; i++) 
+                            {
+                                posComb[i] = val;
+                            }
+
+                            posToUpdate = posComb.Length - 1;
+
+                            allCombs.Add(CopyIntArr(posComb));
+                        }
+                        else 
+                        {
+                            int val = posComb[posToUpdate] + 1;
+
+                            if (allPosValues.Length - val >= posComb.Length - posToUpdate) 
+                            {
+                                for (int i = posToUpdate; i < posComb.Length; i++) 
+                                {
+                                    posComb[i] = val + i - posToUpdate;
+                                }
+
+                                posToUpdate = posComb.Length - 1;
+
+                                allCombs.Add(CopyIntArr(posComb));
+                            }
+                            else 
+                            {
+                                posToUpdate--;
+                            }
+                        }
+                    }
+                }
+                else 
+                {
+                    posToUpdate--;
+                }
+            }
+
+            return allCombs.ToArray();
+        }
+
+        static private int[] ConvertToIntArray(string[] stringArr) 
+        {
+            int[] intArr = new int[stringArr.Length];
+
+            for (int i = 0; i < stringArr.Length; i++) 
+            {
+                intArr[i] = i;
+            }
+
+            return intArr;
+        }
+
+        static private string[] ConvertToStringArr(int[] intArray, string[] stringArr) 
+        {
+            string[] convArr = new string[intArray.Length];
+
+            for (int i = 0; i < intArray.Length; i++) 
+            {
+                convArr[i] = stringArr[intArray[i]];
+            }
+
+            return convArr;
+        }
+
         static private int CalcFactorial(int n) 
         {
             int result = 1;
@@ -173,6 +179,18 @@ namespace Iterations
             }
 
             return result;
+        }
+
+        static private int[] CopyIntArr(int[] toCopy) 
+        {
+            int[] copiedArr = new int[toCopy.Length];
+
+            for (int i = 0; i < toCopy.Length; i++) 
+            {
+                copiedArr[i] = toCopy[i];
+            }
+
+            return copiedArr;
         }
     }
 }
