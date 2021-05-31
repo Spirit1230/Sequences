@@ -7,35 +7,122 @@ namespace Iterations
     {
         static void Main(string[] args)
         {
-            Test1();
-        }
-
-        static public void Test() 
-        {
             string[] testVals = new string[] {"APPLES", "PEARS", "ORANGES", "BANNANAS", "GRAPES", "AUBERGINE"};
 
-            for (int i = 1; i < testVals.Length; i++) 
+            FindCombsTest(testVals);
+            FindCombsWithRepsTest(testVals);
+        }
+
+        static private void FindCombsTest(string[] testVals) 
+        {
+            Console.WriteLine("Finding all combinations\n");
+
+            string[][] allCombs = GetCombinations(testVals, 3);
+
+            foreach (string[] comb in allCombs) 
             {
-                foreach (string[] comb in GetCombinations(testVals, i)) 
+                Console.WriteLine(string.Join(" OR ", comb));
+            }
+
+            Console.WriteLine();
+
+            Console.WriteLine("Found {0}/{1} combinations", allCombs.Length, CalculateTotalCombinations(3, testVals.Length));
+
+            Console.WriteLine();
+
+            Console.WriteLine("Are all combinations unique?  {0}", AreCombinationsUnique(allCombs).ToString());
+
+            Console.WriteLine();
+        }
+
+        static private void FindCombsWithRepsTest(string[] testVals) 
+        {
+            Console.WriteLine("Finding all combinations with repeats\n");
+
+            string[][] allCombs = GetCombinationsWithRepeats(testVals, 3);
+
+            foreach (string[] comb in allCombs) 
+            {
+                Console.WriteLine(string.Join(" OR ", comb));
+            }
+
+            Console.WriteLine();
+
+            Console.WriteLine("Found {0}/{1} combinations", allCombs.Length, CalculateTotalCombinationsWithRepeats(3, testVals.Length));
+
+            Console.WriteLine();
+
+            Console.WriteLine("Are all combinations unique?  {0}", AreCombinationsUnique(allCombs).ToString());
+
+            Console.WriteLine();
+        }
+
+        static private bool AreCombinationsUnique(string[][] toTest) 
+        {
+            bool allUnique = true;
+
+            for (int i = 0; i < toTest.Length; i++) 
+            {
+                string[] toCheck = toTest[i];
+
+                for (int j = 0; j < toTest.Length; j++) 
                 {
-                    Console.WriteLine(string.Join(" OR ", comb));
+                    if (i != j) 
+                    {
+                        if (!checkCombinations(toCheck, toTest[j])) 
+                        {
+                            allUnique = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (!allUnique) 
+                {
+                    break;
                 }
             }
+
+            return allUnique;
         }
 
-        static public void Test1() 
+        static private bool checkCombinations(string[] toCheck, string[] testAgainst) 
         {
-            string[] testVals = new string[] {"APPLES", "PEARS", "ORANGES", "BANNANAS", "GRAPES", "AUBERGINE"};
+            int uniquenessVal = 0;
 
-            foreach (string[] comb in GetCombinations(testVals, 3)) 
+            foreach (string val in toCheck) 
             {
-                Console.WriteLine(string.Join(" OR ", comb));
+                int numInToCheck = 0;
+                int numInTestAgainst = 0;
+
+                for (int i = 0; i < testAgainst.Length; i++) 
+                {
+                    if (toCheck[i] == val) 
+                    {
+                        numInToCheck++;
+                    }
+
+                    if (testAgainst[i] == val) 
+                    {
+                        numInTestAgainst++;
+                    }
+                }
+
+                uniquenessVal += (numInToCheck > numInTestAgainst) ? numInToCheck - numInTestAgainst : numInTestAgainst - numInToCheck;
             }
 
-            foreach (string[] comb in GetCombinationsWithRepeats(testVals, 3)) 
+            bool uniqueVal;
+
+            if (uniquenessVal > 0) 
             {
-                Console.WriteLine(string.Join(" OR ", comb));
+                uniqueVal = true;
             }
+            else 
+            {
+                uniqueVal = false;
+            }
+
+            return uniqueVal;
         }
     }
 }
