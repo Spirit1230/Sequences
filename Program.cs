@@ -9,8 +9,10 @@ namespace Iterations
         {
             string[] testVals = new string[] {"APPLES", "PEARS", "ORANGES", "BANNANAS", "GRAPES", "AUBERGINE"};
 
-            FindCombsTest(testVals);
-            FindCombsWithRepsTest(testVals);
+            // FindCombsTest(testVals);
+            // FindCombsWithRepsTest(testVals);
+
+            FindPermsWithRepsTest(testVals);
         }
 
         static private void FindCombsTest(string[] testVals) 
@@ -30,7 +32,7 @@ namespace Iterations
 
             Console.WriteLine();
 
-            Console.WriteLine("Are all combinations unique?  {0}", AreCombinationsUnique(allCombs).ToString());
+            Console.WriteLine("Are all combinations unique?  {0}", AreAllCombinationsUnique(allCombs).ToString());
 
             Console.WriteLine();
         }
@@ -52,12 +54,34 @@ namespace Iterations
 
             Console.WriteLine();
 
-            Console.WriteLine("Are all combinations unique?  {0}", AreCombinationsUnique(allCombs).ToString());
+            Console.WriteLine("Are all combinations unique?  {0}", AreAllCombinationsUnique(allCombs).ToString());
 
             Console.WriteLine();
         }
 
-        static private bool AreCombinationsUnique(string[][] toTest) 
+        static private void FindPermsWithRepsTest(string[] testVals) 
+        {
+            Console.WriteLine("Finding all permutations with repeats\n");
+
+            string[][] allPerms = GetPermutationsWithRepeats(testVals, 3);
+
+            foreach (string[] perm in allPerms) 
+            {
+                Console.WriteLine(string.Join(" OR ", perm));
+            }
+
+            Console.WriteLine();
+
+            Console.WriteLine("Found {0}/{1} permutations", allPerms.Length, CalculateTotalPermutationsWithRepeats(3, testVals.Length));
+
+            Console.WriteLine();
+
+            Console.WriteLine("Are all permutations unique?  {0}", AreAllPermutationsUnique(allPerms).ToString());
+
+            Console.WriteLine();
+        }
+
+        static private bool AreAllCombinationsUnique(string[][] toTest) 
         {
             bool allUnique = true;
 
@@ -69,7 +93,7 @@ namespace Iterations
                 {
                     if (i != j) 
                     {
-                        if (!checkCombinations(toCheck, toTest[j])) 
+                        if (!checkCombinationsDiffer(toCheck, toTest[j])) 
                         {
                             allUnique = false;
                             break;
@@ -86,7 +110,7 @@ namespace Iterations
             return allUnique;
         }
 
-        static private bool checkCombinations(string[] toCheck, string[] testAgainst) 
+        static private bool checkCombinationsDiffer(string[] toCheck, string[] testAgainst) 
         {
             int uniquenessVal = 0;
 
@@ -123,6 +147,48 @@ namespace Iterations
             }
 
             return uniqueVal;
+        }
+
+        static private bool AreAllPermutationsUnique(string[][] toTest) 
+        {
+            bool result = true;
+
+            for (int i = 0; i < toTest.Length; i++) 
+            {
+                string[] toCheck = toTest[i];
+
+                for (int j = 0; j < toTest.Length; j++) 
+                {
+                    if (i != j) 
+                    {
+                        string[] testAgainst = toTest[j];
+
+                        if (!CheckPermutationsDiffer(toCheck, testAgainst)) 
+                        {
+                            result = false;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        static private bool CheckPermutationsDiffer(string[] toCheck, string[] testAgainst) 
+        {
+            bool result = false;
+
+            for (int i = 0; i < toCheck.Length; i++) 
+            {
+                if (toCheck[i] != testAgainst[i]) 
+                {
+                    result = true;
+                    break;
+                }
+            }
+
+            return result;
         }
     }
 }

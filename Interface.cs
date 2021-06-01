@@ -93,7 +93,7 @@ namespace Iterations
             return result;
         }
 
-        static public int CalculateTotalPermuationsWithRepitions(int numChosen, int totalOptions) 
+        static public int CalculateTotalPermutationsWithRepeats(int numChosen, int totalOptions) 
         {
             return (int)Math.Pow(totalOptions, numChosen);
         }
