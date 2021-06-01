@@ -1,4 +1,5 @@
 using System; 
+using System.Linq;
 using System.Collections.Generic;
 
 namespace Iterations 
@@ -51,7 +52,68 @@ namespace Iterations
                 }
                 else 
                 {
+                    int nextVal = posPerm[posToUpdate];
 
+                    bool foundNextVal = false;
+
+                    while (!foundNextVal && nextVal + 1 < allPosValues.Length) 
+                    {
+                        nextVal++;
+
+                        bool containsVal = false;
+
+                        for (int i = 0; i <= posToUpdate; i++) 
+                        {
+                            if (nextVal == posPerm[i]) 
+                            {
+                                containsVal = true;
+                            }
+                        }
+
+                        if (!containsVal) 
+                        {
+                            foundNextVal = true;
+                        }
+                    }
+
+                    if (foundNextVal) 
+                    {
+                        posPerm[posToUpdate] = nextVal;
+
+                        for (int i = posToUpdate + 1; i < posPerm.Length; i++) 
+                        {
+                            bool valRepeated;
+                            int valToAdd = -1;
+
+                            do 
+                            {
+                                valRepeated = false;
+                                valToAdd++;
+
+                                for (int pos = 0; pos < i; pos++) 
+                                {
+                                    if (valToAdd == posPerm[pos]) 
+                                    {
+                                        valRepeated = true;
+                                        break;
+                                    }
+                                }
+                            } while (valRepeated && valToAdd < allPosValues.Length);
+
+                            if (!valRepeated) 
+                            {
+                                posPerm[i] = valToAdd;
+                            }
+                        }
+
+                        posToUpdate = posPerm.Length - 1;
+
+                        allPerms.Add(CopyIntArr(posPerm));
+                    }
+                    else 
+                    {
+                        posToUpdate--;
+                    }
                 }
             }
 

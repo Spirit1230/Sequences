@@ -33,6 +33,20 @@ namespace Iterations
             return allCombs.ToArray();
         }
 
+        static public string[][] GetPermutations(string[] allVals, int numChosen) 
+        {
+            int[][] allPermsInt = FindAllPermutations(ConvertToIntArray(allVals), numChosen, false);
+
+            List<string[]> allPerms = new List<string[]>();
+
+            foreach (int[] permInt in allPermsInt) 
+            {
+                allPerms.Add(ConvertToStringArr(permInt, allVals));
+            }
+
+            return allPerms.ToArray();
+        }
+
         static public string[][] GetPermutationsWithRepeats(string[] allVals, int numChosen) 
         {
             int[][] allPermsInt = FindAllPermutations(ConvertToIntArray(allVals), numChosen, true);
@@ -81,7 +95,7 @@ namespace Iterations
             return calcTop / CalcFactorial(calcBot);
         }
 
-        static public int CalculateTotalPermuations(int numChosen, int totalOptions) 
+        static public int CalculateTotalPermutations(int numChosen, int totalOptions) 
         {
             int result = 1;
 
