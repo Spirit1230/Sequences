@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Iterations 
@@ -64,6 +65,23 @@ namespace Iterations
             }
 
             return calcTop / CalcFactorial(calcBot);
+        }
+
+        static public int CalculateTotalPermuations(int numChosen, int totalOptions) 
+        {
+            int result = 1;
+
+            for (int i = totalOptions - numChosen + 1; i <= totalOptions; i++) 
+            {
+                result *= i;
+            }
+
+            return result;
+        }
+
+        static public int CalculateTotalPermuationsWithRepitions(int numChosen, int totalOptions) 
+        {
+            return (int)Math.Pow(totalOptions, numChosen);
         }
     }
 }
