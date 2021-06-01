@@ -9,9 +9,10 @@ namespace Iterations
         {
             string[] testVals = new string[] {"APPLES", "PEARS", "ORANGES", "BANNANAS", "GRAPES", "AUBERGINE"};
 
-            // FindCombsTest(testVals);
-            // FindCombsWithRepsTest(testVals);
+            FindCombsTest(testVals);
+            FindCombsWithRepsTest(testVals);
 
+            FindPermsTest(testVals);
             FindPermsWithRepsTest(testVals);
         }
 
@@ -55,6 +56,28 @@ namespace Iterations
             Console.WriteLine();
 
             Console.WriteLine("Are all combinations unique?  {0}", AreAllCombinationsUnique(allCombs).ToString());
+
+            Console.WriteLine();
+        }
+
+        static private void FindPermsTest(string[] testVals) 
+        {
+            Console.WriteLine("Finding all permutations\n");
+
+            string[][] allPerms = GetPermutations(testVals, 3);
+
+            foreach (string[] perm in allPerms) 
+            {
+                Console.WriteLine(string.Join(" OR ", perm));
+            }
+
+            Console.WriteLine();
+
+            Console.WriteLine("Found {0}/{1} permutations", allPerms.Length, CalculateTotalPermutations(3, testVals.Length));
+
+            Console.WriteLine();
+
+            Console.WriteLine("Are all permutations unique?  {0}", AreAllPermutationsUnique(allPerms).ToString());
 
             Console.WriteLine();
         }
