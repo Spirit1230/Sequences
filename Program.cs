@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using static Iterations.Combinations;
 
 namespace Iterations
@@ -9,27 +10,31 @@ namespace Iterations
         {
             string[] testVals = new string[] {"APPLES", "PEARS", "ORANGES", "BANNANAS", "GRAPES", "AUBERGINE"};
 
-            FindCombsTest(testVals);
-            FindCombsWithRepsTest(testVals);
+            FindCombsTest(testVals, 4);
+            FindCombsWithRepsTest(testVals, 4);
 
-            FindPermsTest(testVals);
-            FindPermsWithRepsTest(testVals);
+            FindPermsTest(testVals, 6);
+            FindPermsWithRepsTest(testVals, 6);
         }
 
-        static private void FindCombsTest(string[] testVals) 
+        static private void FindCombsTest(string[] testVals, int numToChoose) 
         {
+            Stopwatch timer = new Stopwatch();
+
             Console.WriteLine("Finding all combinations\n");
 
-            string[][] allCombs = GetCombinations(testVals, 3);
+            timer.Start();
+            string[][] allCombs = GetCombinations(testVals, numToChoose);
+            timer.Stop();
 
-            foreach (string[] comb in allCombs) 
-            {
-                Console.WriteLine(string.Join(" OR ", comb));
-            }
+            // foreach (string[] comb in allCombs) 
+            // {
+            //     Console.WriteLine(string.Join(" OR ", comb));
+            // }
 
             Console.WriteLine();
 
-            Console.WriteLine("Found {0}/{1} combinations", allCombs.Length, CalculateTotalCombinations(3, testVals.Length));
+            Console.WriteLine("Found {0}/{1} combinations in {2}ms", allCombs.Length, CalculateTotalCombinations(numToChoose, testVals.Length), timer.ElapsedMilliseconds);
 
             Console.WriteLine();
 
@@ -38,20 +43,24 @@ namespace Iterations
             Console.WriteLine();
         }
 
-        static private void FindCombsWithRepsTest(string[] testVals) 
+        static private void FindCombsWithRepsTest(string[] testVals, int numToChoose) 
         {
+            Stopwatch timer = new Stopwatch();
+
             Console.WriteLine("Finding all combinations with repeats\n");
 
-            string[][] allCombs = GetCombinationsWithRepeats(testVals, 3);
+            timer.Start();
+            string[][] allCombs = GetCombinationsWithRepeats(testVals, numToChoose);
+            timer.Stop();
 
-            foreach (string[] comb in allCombs) 
-            {
-                Console.WriteLine(string.Join(" OR ", comb));
-            }
+            // foreach (string[] comb in allCombs) 
+            // {
+            //     Console.WriteLine(string.Join(" OR ", comb));
+            // }
 
             Console.WriteLine();
 
-            Console.WriteLine("Found {0}/{1} combinations", allCombs.Length, CalculateTotalCombinationsWithRepeats(3, testVals.Length));
+            Console.WriteLine("Found {0}/{1} combinations in {2}ms", allCombs.Length, CalculateTotalCombinationsWithRepeats(numToChoose, testVals.Length), timer.ElapsedMilliseconds);
 
             Console.WriteLine();
 
@@ -60,20 +69,24 @@ namespace Iterations
             Console.WriteLine();
         }
 
-        static private void FindPermsTest(string[] testVals) 
+        static private void FindPermsTest(string[] testVals, int numToChoose) 
         {
+            Stopwatch timer = new Stopwatch();
+
             Console.WriteLine("Finding all permutations\n");
 
-            string[][] allPerms = GetPermutations(testVals, 3);
+            timer.Start();
+            string[][] allPerms = GetPermutations(testVals, numToChoose);
+            timer.Stop();
 
-            foreach (string[] perm in allPerms) 
-            {
-                Console.WriteLine(string.Join(" OR ", perm));
-            }
+            // foreach (string[] perm in allPerms) 
+            // {
+            //     Console.WriteLine(string.Join(" OR ", perm));
+            // }
 
             Console.WriteLine();
 
-            Console.WriteLine("Found {0}/{1} permutations", allPerms.Length, CalculateTotalPermutations(3, testVals.Length));
+            Console.WriteLine("Found {0}/{1} permutations in {2}ms", allPerms.Length, CalculateTotalPermutations(numToChoose, testVals.Length), timer.ElapsedMilliseconds);
 
             Console.WriteLine();
 
@@ -82,20 +95,24 @@ namespace Iterations
             Console.WriteLine();
         }
 
-        static private void FindPermsWithRepsTest(string[] testVals) 
+        static private void FindPermsWithRepsTest(string[] testVals, int numToChoose) 
         {
+            Stopwatch timer = new Stopwatch();
+
             Console.WriteLine("Finding all permutations with repeats\n");
 
-            string[][] allPerms = GetPermutationsWithRepeats(testVals, 3);
+            timer.Start();
+            string[][] allPerms = GetPermutationsWithRepeats(testVals, numToChoose);
+            timer.Stop();
 
-            foreach (string[] perm in allPerms) 
-            {
-                Console.WriteLine(string.Join(" OR ", perm));
-            }
+            // foreach (string[] perm in allPerms) 
+            // {
+            //     Console.WriteLine(string.Join(" OR ", perm));
+            // }
 
             Console.WriteLine();
 
-            Console.WriteLine("Found {0}/{1} permutations", allPerms.Length, CalculateTotalPermutationsWithRepeats(3, testVals.Length));
+            Console.WriteLine("Found {0}/{1} permutations in {2}ms", allPerms.Length, CalculateTotalPermutationsWithRepeats(numToChoose, testVals.Length), timer.ElapsedMilliseconds);
 
             Console.WriteLine();
 
@@ -112,15 +129,12 @@ namespace Iterations
             {
                 string[] toCheck = toTest[i];
 
-                for (int j = 0; j < toTest.Length; j++) 
+                for (int j = i + 1; j < toTest.Length; j++) 
                 {
-                    if (i != j) 
+                    if (!checkCombinationsDiffer(toCheck, toTest[j])) 
                     {
-                        if (!checkCombinationsDiffer(toCheck, toTest[j])) 
-                        {
-                            allUnique = false;
-                            break;
-                        }
+                        allUnique = false;
+                        break;
                     }
                 }
 
@@ -180,17 +194,12 @@ namespace Iterations
             {
                 string[] toCheck = toTest[i];
 
-                for (int j = 0; j < toTest.Length; j++) 
+                for (int j = i + 1; j < toTest.Length; j++) 
                 {
-                    if (i != j) 
+                    if (!CheckPermutationsDiffer(toCheck, toTest[j])) 
                     {
-                        string[] testAgainst = toTest[j];
-
-                        if (!CheckPermutationsDiffer(toCheck, testAgainst)) 
-                        {
-                            result = false;
-                            break;
-                        }
+                        result = false;
+                        break;
                     }
                 }
             }
