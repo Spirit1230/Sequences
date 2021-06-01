@@ -33,6 +33,20 @@ namespace Iterations
             return allCombs.ToArray();
         }
 
+        static public string[][] GetPermutationsWithRepeats(string[] allVals, int numChosen) 
+        {
+            int[][] allPermsInt = FindAllPermutations(ConvertToIntArray(allVals), numChosen, true);
+
+            List<string[]> allPerms = new List<string[]>();
+
+            foreach (int[] permInt in allPermsInt) 
+            {
+                allPerms.Add(ConvertToStringArr(permInt, allVals));
+            }
+
+            return allPerms.ToArray();
+        }
+
         static public int CalculateTotalCombinations(int numChosen, int totalOptions) 
         {
             int calcTop = 1;
