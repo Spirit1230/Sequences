@@ -1,3 +1,3 @@
-# Iterations
+# Combinations and Permutations
 
-Library with functions designed to find different permutations and combinations of arrays
+C# code with functions designed to find different permutations and combinations of arrays.
