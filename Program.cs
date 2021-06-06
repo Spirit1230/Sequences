@@ -8,13 +8,52 @@ namespace Sequences
     {
         static void Main(string[] args)
         {
+            //regular tests
             string[] testVals = new string[] {"APPLES", "PEARS", "ORANGES", "BANNANAS", "GRAPES", "AUBERGINE"};
 
-            FindCombsTest(testVals, 4);
-            FindCombsWithRepsTest(testVals, 4);
+            FindCombsTest(testVals, 3);
+            FindCombsWithRepsTest(testVals, 3);
 
-            FindPermsTest(testVals, 6);
-            FindPermsWithRepsTest(testVals, 6);
+            FindPermsTest(testVals, 4);
+            FindPermsWithRepsTest(testVals, 4);
+
+            //tests when length asked for is greater than number of values provided
+            string[] testVals2 = new string[] {"APPLES", "PEARS", "ORANGES"};
+
+            FindCombsTest(testVals2, 5);
+            FindCombsWithRepsTest(testVals2, 5);
+
+            FindPermsTest(testVals2, 5);
+            FindPermsWithRepsTest(testVals2, 5);
+
+            //tests negative values
+            FindCombsTest(testVals2, -1);
+            FindCombsWithRepsTest(testVals2, -2);
+
+            FindPermsTest(testVals2, -5);
+            FindPermsWithRepsTest(testVals2, -5);
+
+            //tests 0 value
+            FindCombsTest(testVals2, 0);
+            FindCombsWithRepsTest(testVals2, 0);
+
+            FindPermsTest(testVals2, 0);
+            FindPermsWithRepsTest(testVals2, 0);
+
+            //tests empty string[] value
+            FindCombsTest(new string[0], 0);
+            FindCombsWithRepsTest(new string[0], 0);
+
+            FindPermsTest(new string[0], 0);
+            FindPermsWithRepsTest(new string[0], 0);
+
+            //stress tests
+            string[] testVals3 = new string[] {"APPLES", "PEARS", "ORANGES", "BANNANAS", "GRAPES", "AUBERGINE", "TOMATO", "POTATO", "BROCCOLI", "BEANS", "PINNAPPLE"};
+            FindCombsTest(testVals3, testVals3.Length / 2);
+            FindCombsWithRepsTest(testVals3, testVals3.Length / 2);
+
+            FindPermsTest(testVals3, testVals3.Length);
+            FindPermsWithRepsTest(testVals3, testVals3.Length);
         }
 
         static private void FindCombsTest(string[] testVals, int numToChoose) 
