@@ -76,7 +76,7 @@ namespace Sequences
 
             int result;
 
-            if (numChosen <= totalOptions) 
+            if (0 < numChosen && numChosen <= totalOptions) 
             {
                 int calcTop = 1;
 
@@ -103,16 +103,27 @@ namespace Sequences
             //Calculates the total number of combinations with repeats
             //(r + n - 1)! / (r!(n - 1)!) where n = totalOptions, r = numChosen and "!" stands for factorial
 
-            int calcTop = 1;
+            int result;
 
-            (int calcBot, int largestBotFact) = (numChosen > totalOptions - 1) ? (totalOptions - 1, numChosen) : (numChosen, totalOptions - 1);
-
-            for (int i = largestBotFact + 1; i <= numChosen + totalOptions - 1; i++) 
+            if (numChosen > 0) 
             {
-                calcTop *= i;                
+                int calcTop = 1;
+
+                (int calcBot, int largestBotFact) = (numChosen > totalOptions - 1) ? (totalOptions - 1, numChosen) : (numChosen, totalOptions - 1);
+
+                for (int i = largestBotFact + 1; i <= numChosen + totalOptions - 1; i++) 
+                {
+                    calcTop *= i;                
+                }
+
+                result = calcTop / CalcFactorial(calcBot);
+            }
+            else 
+            {
+                result = 0;
             }
 
-            return calcTop / CalcFactorial(calcBot);
+            return result;
         }
 
         static public int CalculateTotalPermutations(int numChosen, int totalOptions) 
@@ -122,7 +133,7 @@ namespace Sequences
 
             int result;
 
-            if (numChosen <= totalOptions) 
+            if (0 < numChosen && numChosen <= totalOptions) 
             {
                 result = 1;
 
@@ -144,7 +155,18 @@ namespace Sequences
             //Calculates the total number of permutations with repeats
             //n ^ r where n = totalOptions, r = numChosen
 
-            return (int)Math.Pow(totalOptions, numChosen);
+            int result;
+
+            if (0 < numChosen) 
+            {
+                result = (int)Math.Pow(totalOptions, numChosen);
+            }
+            else 
+            {
+                result = 0;
+            }
+
+            return result;
         }
     }
 }
