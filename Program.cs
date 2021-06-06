@@ -9,6 +9,7 @@ namespace Sequences
         static void Main(string[] args)
         {
             //regular tests
+            Console.WriteLine("Regular Tests\n");
             string[] testVals = new string[] {"APPLES", "PEARS", "ORANGES", "BANNANAS", "GRAPES", "AUBERGINE"};
 
             FindCombsTest(testVals, 3);
@@ -18,6 +19,7 @@ namespace Sequences
             FindPermsWithRepsTest(testVals, 4);
 
             //tests when length asked for is greater than number of values provided
+            Console.WriteLine("Testing when not enough values\n");
             string[] testVals2 = new string[] {"APPLES", "PEARS", "ORANGES"};
 
             FindCombsTest(testVals2, 5);
@@ -27,6 +29,7 @@ namespace Sequences
             FindPermsWithRepsTest(testVals2, 5);
 
             //tests negative values
+            Console.WriteLine("Testing negativ values\n");
             FindCombsTest(testVals2, -1);
             FindCombsWithRepsTest(testVals2, -2);
 
@@ -34,6 +37,7 @@ namespace Sequences
             FindPermsWithRepsTest(testVals2, -5);
 
             //tests 0 value
+            Console.WriteLine("Testing 0\n");
             FindCombsTest(testVals2, 0);
             FindCombsWithRepsTest(testVals2, 0);
 
@@ -41,6 +45,7 @@ namespace Sequences
             FindPermsWithRepsTest(testVals2, 0);
 
             //tests empty string[] value
+            Console.WriteLine("Testing empty array\n");
             FindCombsTest(new string[0], 0);
             FindCombsWithRepsTest(new string[0], 0);
 
@@ -49,11 +54,7 @@ namespace Sequences
 
             //stress tests
             string[] testVals3 = new string[] {"APPLES", "PEARS", "ORANGES", "BANNANAS", "GRAPES", "AUBERGINE", "TOMATO", "POTATO", "BROCCOLI", "BEANS", "PINNAPPLE"};
-            FindCombsTest(testVals3, testVals3.Length / 2);
-            FindCombsWithRepsTest(testVals3, testVals3.Length / 2);
-
-            FindPermsTest(testVals3, testVals3.Length);
-            FindPermsWithRepsTest(testVals3, testVals3.Length);
+            StressTests(testVals3);
         }
 
         static private void FindCombsTest(string[] testVals, int numToChoose) 
@@ -178,6 +179,41 @@ namespace Sequences
             Console.WriteLine("Are all permutations unique?  {0}", AreAllPermutationsUnique(allPerms).ToString());
 
             Console.WriteLine();
+        }
+
+        static private void StressTests(string[] testVals) 
+        {
+            Console.WriteLine("Stress Tests");
+
+            Stopwatch timer = new Stopwatch();
+
+            timer.Start();
+            string[][] combTest = GetCombinations(testVals, testVals.Length / 2);
+            timer.Stop();
+
+            Console.WriteLine("Found {0}/{1} combinations in {2}ms", combTest.Length, CalculateTotalCombinations(testVals.Length / 2, testVals.Length), timer.ElapsedMilliseconds); 
+            timer.Reset();
+
+            timer.Start();
+            string[][] combRepTest = GetCombinationsWithRepeats(testVals, testVals.Length / 2);
+            timer.Stop();
+
+            Console.WriteLine("Found {0}/{1} combinations with repetions in {2}ms", combRepTest.Length, CalculateTotalCombinationsWithRepeats(testVals.Length / 2, testVals.Length), timer.ElapsedMilliseconds); 
+            timer.Reset();
+
+            timer.Start();
+            string[][] permTest = GetPermutations(testVals, testVals.Length);
+            timer.Stop();
+
+            Console.WriteLine("Found {0}/{1} permutations in {2}ms", permTest.Length, CalculateTotalPermutations(testVals.Length / 2, testVals.Length), timer.ElapsedMilliseconds); 
+            timer.Reset();
+
+            timer.Start();
+            string[][] permRepTest = GetPermutationsWithRepeats(testVals, testVals.Length);
+            timer.Stop();
+
+            Console.WriteLine("Found {0}/{1} permutations with repetitions in {2}ms", permRepTest.Length, CalculateTotalPermutationsWithRepeats(testVals.Length / 2, testVals.Length), timer.ElapsedMilliseconds); 
+            timer.Reset();
         }
 
         static private bool AreAllCombinationsUnique(string[][] toTest) 
