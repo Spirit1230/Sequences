@@ -74,16 +74,28 @@ namespace Sequences
             //Calculates the total number of combinations without repeats
             //n! / (r!(n - r)!) where n = total options, r = numChosen and "!" stands for factorial
 
-            int calcTop = 1;
+            int result;
 
-            (int calcBot, int largestBotFact) = (numChosen > totalOptions - numChosen) ? (totalOptions - numChosen, numChosen) : (numChosen, totalOptions - numChosen);
-
-            for (int i = largestBotFact + 1; i <= totalOptions; i++) 
+            if (numChosen <= totalOptions) 
             {
-                calcTop *= i;                
-            }
+                int calcTop = 1;
 
-            return calcTop / CalcFactorial(calcBot);
+                (int calcBot, int largestBotFact) = (numChosen > totalOptions - numChosen) ? (totalOptions - numChosen, numChosen) : (numChosen, totalOptions - numChosen);
+
+                for (int i = largestBotFact + 1; i <= totalOptions; i++) 
+                {
+                    calcTop *= i;                
+                }
+
+                result = calcTop / CalcFactorial(calcBot);
+            }
+            else 
+            {
+                result = 0;
+            }
+            
+
+            return result;
         }
 
         static public int CalculateTotalCombinationsWithRepeats(int numChosen, int totalOptions) 
@@ -108,11 +120,20 @@ namespace Sequences
             //Calculates the total number of permutations without repeats
             //n! / (n - r)! where n = totalOptions, r = numChosen and "!" stands for factorial
 
-            int result = 1;
+            int result;
 
-            for (int i = totalOptions - numChosen + 1; i <= totalOptions; i++) 
+            if (numChosen <= totalOptions) 
             {
-                result *= i;
+                result = 1;
+
+                for (int i = totalOptions - numChosen + 1; i <= totalOptions; i++) 
+                {
+                    result *= i;
+                }
+            }
+            else 
+            {
+                result = 0;
             }
 
             return result;

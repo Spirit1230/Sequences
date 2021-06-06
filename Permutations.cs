@@ -11,132 +11,136 @@ namespace Sequences
 
             List<int[]> allPerms = new List<int[]>();
 
-            //assigns an initial permutaion and adds to list
-            int[] posPerm = new int[numChosen];
-
-            for (int i = 0; i < posPerm.Length; i++) 
+            //checks enough values given to produce permutations of the specified length
+            if (numChosen <= allPosValues.Length || allowRepeats) 
             {
-                if (allowRepeats) 
-                {
-                    posPerm[i] = 0;
-                }
-                else 
-                {
-                    posPerm[i] = i;
-                }
-            }
+                //assigns an initial permutaion and adds to list
+                int[] posPerm = new int[numChosen];
 
-            allPerms.Add(CopyIntArr(posPerm));
-
-            //finds each new permutation by counting through each position in the original array
-            //works a bit like a digital clock, counts the seconds and as that gets to its max value it increases the minutes and restarts counting the seconds
-            //eg {0, 0, 1} > {0, 0, 2} > {0, 1, 0} > {0, 1, 1} > {0, 1, 2} > {0, 2, 0} > and so on
-            int posToUpdate = posPerm.Length - 1;
-
-            while (posToUpdate >= 0) 
-            {
-                //checks whether repeats are allowed or not
-                if (allowRepeats) 
+                for (int i = 0; i < posPerm.Length; i++) 
                 {
-                    //checks current position can be updated
-                    if (posPerm[posToUpdate] + 1 < allPosValues.Length) 
+                    if (allowRepeats) 
                     {
-                        posPerm[posToUpdate]++;
-
-                        //resets all following positions to 0
-                        for (int i = posToUpdate + 1; i < posPerm.Length; i++) 
-                        {
-                            posPerm[i] = 0;
-                        }
-
-                        //sets pointer to final position
-                        posToUpdate = posPerm.Length - 1;
-
-                        //adds new permutation to list
-                        allPerms.Add(CopyIntArr(posPerm));
+                        posPerm[i] = 0;
                     }
                     else 
                     {
-                        //checks preceding position if current position can't be updated
-                        posToUpdate--;
+                        posPerm[i] = i;
                     }
                 }
-                else 
+
+                allPerms.Add(CopyIntArr(posPerm));
+
+                //finds each new permutation by counting through each position in the original array
+                //works a bit like a digital clock, counts the seconds and as that gets to its max value it increases the minutes and restarts counting the seconds
+                //eg {0, 0, 1} > {0, 0, 2} > {0, 1, 0} > {0, 1, 1} > {0, 1, 2} > {0, 2, 0} > and so on
+                int posToUpdate = posPerm.Length - 1;
+
+                while (posToUpdate >= 0) 
                 {
-                    //finds next value that the current position can be updated to
-                    int nextVal = posPerm[posToUpdate];
-
-                    bool foundNextVal = false;
-
-                    while (!foundNextVal && nextVal + 1 < allPosValues.Length) 
+                    //checks whether repeats are allowed or not
+                    if (allowRepeats) 
                     {
-                        nextVal++;
-
-                        bool containsVal = false;
-
-                        //checks value isn't contained in any positions preceding the one being updated
-                        for (int i = 0; i <= posToUpdate; i++) 
+                        //checks current position can be updated
+                        if (posPerm[posToUpdate] + 1 < allPosValues.Length) 
                         {
-                            if (nextVal == posPerm[i]) 
+                            posPerm[posToUpdate]++;
+
+                            //resets all following positions to 0
+                            for (int i = posToUpdate + 1; i < posPerm.Length; i++) 
                             {
-                                containsVal = true;
+                                posPerm[i] = 0;
                             }
-                        }
 
-                        if (!containsVal) 
+                            //sets pointer to final position
+                            posToUpdate = posPerm.Length - 1;
+
+                            //adds new permutation to list
+                            allPerms.Add(CopyIntArr(posPerm));
+                        }
+                        else 
                         {
-                            foundNextVal = true;
+                            //checks preceding position if current position can't be updated
+                            posToUpdate--;
                         }
                     }
-
-                    if (foundNextVal) 
+                    else 
                     {
-                        posPerm[posToUpdate] = nextVal;
+                        //finds next value that the current position can be updated to
+                        int nextVal = posPerm[posToUpdate];
 
-                        //updates all following positions
-                        for (int i = posToUpdate + 1; i < posPerm.Length; i++) 
+                        bool foundNextVal = false;
+
+                        while (!foundNextVal && nextVal + 1 < allPosValues.Length) 
                         {
-                            //finds next non repeated value
-                            bool valRepeated;
-                            int valToAdd = -1; //set to -1 so value 0 is checked in first iteration
+                            nextVal++;
 
-                            do 
+                            bool containsVal = false;
+
+                            //checks value isn't contained in any positions preceding the one being updated
+                            for (int i = 0; i <= posToUpdate; i++) 
                             {
-                                valRepeated = false;
-                                valToAdd++;
-
-                                //checks value isn't contained in and positions preceding the one being updated
-                                for (int pos = 0; pos < i; pos++) 
+                                if (nextVal == posPerm[i]) 
                                 {
-                                    if (valToAdd == posPerm[pos]) 
-                                    {
-                                        valRepeated = true;
-                                        break;
-                                    }
+                                    containsVal = true;
                                 }
-                            } while (valRepeated && valToAdd < allPosValues.Length);
+                            }
 
-                            if (!valRepeated) 
+                            if (!containsVal) 
                             {
-                                //updates position
-                                //a value will always be found since all possible values are being checked
-                                posPerm[i] = valToAdd;
+                                foundNextVal = true;
                             }
                         }
 
-                        //sets pointer to final position
-                        posToUpdate = posPerm.Length - 1;
+                        if (foundNextVal) 
+                        {
+                            posPerm[posToUpdate] = nextVal;
 
-                        //adds new permutation to list
-                        allPerms.Add(CopyIntArr(posPerm));
-                    }
-                    else 
-                    {
-                        //checks preceding position if current position can't be updated
-                        posToUpdate--;
+                            //updates all following positions
+                            for (int i = posToUpdate + 1; i < posPerm.Length; i++) 
+                            {
+                                //finds next non repeated value
+                                bool valRepeated;
+                                int valToAdd = -1; //set to -1 so value 0 is checked in first iteration
+
+                                do 
+                                {
+                                    valRepeated = false;
+                                    valToAdd++;
+
+                                    //checks value isn't contained in and positions preceding the one being updated
+                                    for (int pos = 0; pos < i; pos++) 
+                                    {
+                                        if (valToAdd == posPerm[pos]) 
+                                        {
+                                            valRepeated = true;
+                                            break;
+                                        }
+                                    }
+                                } while (valRepeated && valToAdd < allPosValues.Length);
+
+                                if (!valRepeated) 
+                                {
+                                    //updates position
+                                    //a value will always be found since all possible values are being checked
+                                    posPerm[i] = valToAdd;
+                                }
+                            }
+
+                            //sets pointer to final position
+                            posToUpdate = posPerm.Length - 1;
+
+                            //adds new permutation to list
+                            allPerms.Add(CopyIntArr(posPerm));
+                        }
+                        else 
+                        {
+                            //checks preceding position if current position can't be updated
+                            posToUpdate--;
+                        }
                     }
                 }
-            }
+            }            
 
             return allPerms.ToArray();
         }
