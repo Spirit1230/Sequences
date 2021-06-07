@@ -12,7 +12,7 @@ namespace Sequences
             List<int[]> allCombs = new List<int[]>();
 
             //checks enough values given to produce combinations of the specified length
-            if (0 < numChosen && (numChosen <= allPosValues.Length || allowRepeats)) 
+            if (0 < numChosen && (numChosen <= allPosValues.Length || allowRepeats) && allPosValues.Length != 0) 
             {
                 //assigns an intital combination and adds to list
                 int[] posComb = new int[numChosen];

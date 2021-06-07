@@ -12,7 +12,7 @@ namespace Sequences
             List<int[]> allPerms = new List<int[]>();
 
             //checks enough values given to produce permutations of the specified length
-            if (0 < numChosen && (numChosen <= allPosValues.Length || allowRepeats)) 
+            if (0 < numChosen && (numChosen <= allPosValues.Length || allowRepeats) && allPosValues.Length != 0) 
             {
                 //assigns an initial permutaion and adds to list
                 int[] posPerm = new int[numChosen];
