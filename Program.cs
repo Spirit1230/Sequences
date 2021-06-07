@@ -52,6 +52,9 @@ namespace Sequences
             FindPermsTest(new string[0], 0);
             FindPermsWithRepsTest(new string[0], 0);
 
+            //random tests
+            RandomTests();
+
             //stress tests
             string[] testVals3 = new string[] {"APPLES", "PEARS", "ORANGES", "BANNANAS", "GRAPES", "AUBERGINE", "TOMATO", "POTATO", "BROCCOLI", "BEANS", "PINNAPPLE"};
             StressTests(testVals3);
@@ -179,6 +182,30 @@ namespace Sequences
             Console.WriteLine("Are all permutations unique?  {0}", AreAllPermutationsUnique(allPerms).ToString());
 
             Console.WriteLine();
+        }
+
+        static private void RandomTests() 
+        {
+            Random rnd = new Random();
+
+            for (int test = 0; test < 10000; test++) 
+            {
+                int nextLen = rnd.Next(0, 7);
+
+                string[] testStrArr = new string[nextLen];
+
+                for (int i = 0; i < nextLen; i++) 
+                {
+                    testStrArr[i] = i.ToString();
+                }
+
+                int combPermLen = rnd.Next(0, nextLen + 1);
+
+                string[][] combTest = GetCombinations(testStrArr, combPermLen);
+                string[][] combRepTest = GetCombinationsWithRepeats(testStrArr, combPermLen);
+                string[][] permTest = GetPermutations(testStrArr, combPermLen);
+                string[][] permRepTest = GetPermutationsWithRepeats(testStrArr, combPermLen);
+            }
         }
 
         static private void StressTests(string[] testVals) 
