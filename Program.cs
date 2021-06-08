@@ -232,14 +232,14 @@ namespace Sequences
             string[][] permTest = GetPermutations(testVals, testVals.Length);
             timer.Stop();
 
-            Console.WriteLine("Found {0}/{1} permutations in {2}ms", permTest.Length, CalculateTotalPermutations(testVals.Length / 2, testVals.Length), timer.ElapsedMilliseconds); 
+            Console.WriteLine("Found {0}/{1} permutations in {2}ms", permTest.Length, CalculateTotalPermutations(testVals.Length, testVals.Length), timer.ElapsedMilliseconds); 
             timer.Reset();
 
             timer.Start();
             string[][] permRepTest = GetPermutationsWithRepeats(testVals, testVals.Length);
             timer.Stop();
 
-            Console.WriteLine("Found {0}/{1} permutations with repetitions in {2}ms", permRepTest.Length, CalculateTotalPermutationsWithRepeats(testVals.Length / 2, testVals.Length), timer.ElapsedMilliseconds); 
+            Console.WriteLine("Found {0}/{1} permutations with repetitions in {2}ms", permRepTest.Length, CalculateTotalPermutationsWithRepeats(testVals.Length, testVals.Length), timer.ElapsedMilliseconds); 
             timer.Reset();
         }
 

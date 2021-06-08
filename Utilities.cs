@@ -32,16 +32,16 @@ namespace Sequences
             return convArr;
         }
 
-        static private int CalcFactorial(int n) 
+        static private ulong CalcFactorial(int n) 
         {
             //Calculates the factorial "!" by multiplying all numbers up to the specified number
             //eg 6! = 6 * 5 * 4 * 3 * 2 * 1 = 720
 
-            int result = 1;
+            ulong result = 1;
 
             for (int i = 1; i <= n; i++) 
             {
-                result *= i;
+                result *= (ulong)i;
             }
 
             return result;

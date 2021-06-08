@@ -69,25 +69,25 @@ namespace Sequences
             return allPerms.ToArray();
         }
 
-        static public int CalculateTotalCombinations(int numChosen, int totalOptions) 
+        static public ulong CalculateTotalCombinations(int numChosen, int totalOptions) 
         {
             //Calculates the total number of combinations without repeats
             //n! / (r!(n - r)!) where n = total options, r = numChosen and "!" stands for factorial
 
-            int result;
+            ulong result;
 
             if (0 < numChosen && numChosen <= totalOptions) 
             {
-                int calcTop = 1;
+                ulong calcTop = 1;
 
                 (int calcBot, int largestBotFact) = (numChosen > totalOptions - numChosen) ? (totalOptions - numChosen, numChosen) : (numChosen, totalOptions - numChosen);
 
                 for (int i = largestBotFact + 1; i <= totalOptions; i++) 
                 {
-                    calcTop *= i;                
+                    calcTop *= (ulong)i;                
                 }
 
-                result = calcTop / CalcFactorial(calcBot);
+                result = (ulong)calcTop / CalcFactorial(calcBot);
             }
             else 
             {
@@ -98,25 +98,25 @@ namespace Sequences
             return result;
         }
 
-        static public int CalculateTotalCombinationsWithRepeats(int numChosen, int totalOptions) 
+        static public ulong CalculateTotalCombinationsWithRepeats(int numChosen, int totalOptions) 
         {
             //Calculates the total number of combinations with repeats
             //(r + n - 1)! / (r!(n - 1)!) where n = totalOptions, r = numChosen and "!" stands for factorial
 
-            int result;
+            ulong result;
 
             if (numChosen > 0) 
             {
-                int calcTop = 1;
+                ulong calcTop = 1;
 
                 (int calcBot, int largestBotFact) = (numChosen > totalOptions - 1) ? (totalOptions - 1, numChosen) : (numChosen, totalOptions - 1);
 
                 for (int i = largestBotFact + 1; i <= numChosen + totalOptions - 1; i++) 
                 {
-                    calcTop *= i;                
+                    calcTop *= (ulong)i;                
                 }
 
-                result = calcTop / CalcFactorial(calcBot);
+                result = (ulong)calcTop / CalcFactorial(calcBot);
             }
             else 
             {
@@ -126,12 +126,12 @@ namespace Sequences
             return result;
         }
 
-        static public int CalculateTotalPermutations(int numChosen, int totalOptions) 
+        static public ulong CalculateTotalPermutations(int numChosen, int totalOptions) 
         {
             //Calculates the total number of permutations without repeats
             //n! / (n - r)! where n = totalOptions, r = numChosen and "!" stands for factorial
 
-            int result;
+            ulong result;
 
             if (0 < numChosen && numChosen <= totalOptions) 
             {
@@ -139,7 +139,7 @@ namespace Sequences
 
                 for (int i = totalOptions - numChosen + 1; i <= totalOptions; i++) 
                 {
-                    result *= i;
+                    result *= (ulong)i;
                 }
             }
             else 
@@ -150,16 +150,16 @@ namespace Sequences
             return result;
         }
 
-        static public int CalculateTotalPermutationsWithRepeats(int numChosen, int totalOptions) 
+        static public ulong CalculateTotalPermutationsWithRepeats(int numChosen, int totalOptions) 
         {
             //Calculates the total number of permutations with repeats
             //n ^ r where n = totalOptions, r = numChosen
 
-            int result;
+            ulong result;
 
             if (0 < numChosen) 
             {
-                result = (int)Math.Pow(totalOptions, numChosen);
+                result = (ulong)Math.Pow(totalOptions, numChosen);
             }
             else 
             {
