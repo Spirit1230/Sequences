@@ -8,56 +8,58 @@ namespace Sequences
     {
         static void Main(string[] args)
         {
-            //regular tests
-            Console.WriteLine("Regular Tests\n");
-            string[] testVals = new string[] {"APPLES", "PEARS", "ORANGES", "BANNANAS", "GRAPES", "AUBERGINE"};
+            TestDataTypes();
 
-            FindCombsTest(testVals, 3);
-            FindCombsWithRepsTest(testVals, 3);
+            // //regular tests
+            // Console.WriteLine("Regular Tests\n");
+            // string[] testVals = new string[] {"APPLES", "PEARS", "ORANGES", "BANNANAS", "GRAPES", "AUBERGINE"};
 
-            FindPermsTest(testVals, 4);
-            FindPermsWithRepsTest(testVals, 4);
+            // FindCombsTest(testVals, 3);
+            // FindCombsWithRepsTest(testVals, 3);
 
-            //tests when length asked for is greater than number of values provided
-            Console.WriteLine("Testing when not enough values\n");
-            string[] testVals2 = new string[] {"APPLES", "PEARS", "ORANGES"};
+            // FindPermsTest(testVals, 4);
+            // FindPermsWithRepsTest(testVals, 4);
 
-            FindCombsTest(testVals2, 5);
-            FindCombsWithRepsTest(testVals2, 5);
+            // //tests when length asked for is greater than number of values provided
+            // Console.WriteLine("Testing when not enough values\n");
+            // string[] testVals2 = new string[] {"APPLES", "PEARS", "ORANGES"};
 
-            FindPermsTest(testVals2, 5);
-            FindPermsWithRepsTest(testVals2, 5);
+            // FindCombsTest(testVals2, 5);
+            // FindCombsWithRepsTest(testVals2, 5);
 
-            //tests negative values
-            Console.WriteLine("Testing negativ values\n");
-            FindCombsTest(testVals2, -1);
-            FindCombsWithRepsTest(testVals2, -2);
+            // FindPermsTest(testVals2, 5);
+            // FindPermsWithRepsTest(testVals2, 5);
 
-            FindPermsTest(testVals2, -5);
-            FindPermsWithRepsTest(testVals2, -5);
+            // //tests negative values
+            // Console.WriteLine("Testing negativ values\n");
+            // FindCombsTest(testVals2, -1);
+            // FindCombsWithRepsTest(testVals2, -2);
 
-            //tests 0 value
-            Console.WriteLine("Testing 0\n");
-            FindCombsTest(testVals2, 0);
-            FindCombsWithRepsTest(testVals2, 0);
+            // FindPermsTest(testVals2, -5);
+            // FindPermsWithRepsTest(testVals2, -5);
 
-            FindPermsTest(testVals2, 0);
-            FindPermsWithRepsTest(testVals2, 0);
+            // //tests 0 value
+            // Console.WriteLine("Testing 0\n");
+            // FindCombsTest(testVals2, 0);
+            // FindCombsWithRepsTest(testVals2, 0);
 
-            //tests empty string[] value
-            Console.WriteLine("Testing empty array\n");
-            FindCombsTest(new string[0], 0);
-            FindCombsWithRepsTest(new string[0], 0);
+            // FindPermsTest(testVals2, 0);
+            // FindPermsWithRepsTest(testVals2, 0);
 
-            FindPermsTest(new string[0], 0);
-            FindPermsWithRepsTest(new string[0], 0);
+            // //tests empty string[] value
+            // Console.WriteLine("Testing empty array\n");
+            // FindCombsTest(new string[0], 0);
+            // FindCombsWithRepsTest(new string[0], 0);
 
-            //random tests
-            RandomTests();
+            // FindPermsTest(new string[0], 0);
+            // FindPermsWithRepsTest(new string[0], 0);
 
-            //stress tests
-            string[] testVals3 = new string[] {"APPLES", "PEARS", "ORANGES", "BANNANAS", "GRAPES", "AUBERGINE", "TOMATO", "POTATO", "BROCCOLI", "BEANS", "PINNAPPLE"};
-            StressTests(testVals3);
+            // //random tests
+            // RandomTests();
+
+            // //stress tests
+            // string[] testVals3 = new string[] {"APPLES", "PEARS", "ORANGES", "BANNANAS", "GRAPES", "AUBERGINE", "TOMATO", "POTATO", "BROCCOLI", "BEANS", "PINNAPPLE"};
+            // StressTests(testVals3);
         }
 
         static private void FindCombsTest(string[] testVals, int numToChoose) 
@@ -184,6 +186,110 @@ namespace Sequences
             Console.WriteLine();
         }
 
+        static private void TestDataTypes() 
+        {
+            Console.WriteLine("Testing with bool[]\n");
+
+            bool[] boolArr = new bool[] {true, false};
+
+            var boolCombs = GetCombinationsWithRepeats(boolArr, boolArr.Length);
+
+            Console.WriteLine("Found {0}/{1} combinations with repeats", boolCombs.Length, CalculateTotalCombinationsWithRepeats(boolArr.Length, boolArr.Length));
+            Console.WriteLine("Are all combinations unique?\t{0}", AreAllCombinationsUnique(boolCombs));
+            Console.WriteLine();
+
+            var boolPerms = GetPermutationsWithRepeats(boolArr, boolArr.Length);
+
+            Console.WriteLine("Found {0}/{1} permutations with repeats", boolPerms.Length, CalculateTotalPermutationsWithRepeats(boolArr.Length, boolArr.Length));
+            Console.WriteLine("Are all permutations unique?\t{0}", AreAllPermutationsUnique(boolPerms));
+            Console.WriteLine();
+
+            Console.WriteLine("Testing with char[]\n");
+
+            char[] charArr = new char[] {'a', 'b', 'c'};
+
+            var charCombs = GetCombinations(charArr, charArr.Length / 2);
+
+            Console.WriteLine("Found {0}/{1} combinations", charCombs.Length, CalculateTotalCombinations(charArr.Length / 2, charArr.Length));
+            Console.WriteLine("Are all combinations unique?\t{0}", AreAllCombinationsUnique(charCombs));
+            Console.WriteLine();
+
+            var charCombsRep = GetCombinationsWithRepeats(charArr, charArr.Length);
+
+            Console.WriteLine("Found {0}/{1} combinations with repeats", charCombsRep.Length, CalculateTotalCombinationsWithRepeats(charArr.Length, charArr.Length));
+            Console.WriteLine("Are all combinations unique?\t{0}", AreAllCombinationsUnique(charCombsRep));
+            Console.WriteLine();
+
+            var charPerms = GetPermutations(charArr, charArr.Length);
+
+            Console.WriteLine("Found {0}/{1} permutations", charPerms.Length, CalculateTotalPermutations(charArr.Length, charArr.Length));
+            Console.WriteLine("Are all permutations unique?\t{0}", AreAllPermutationsUnique(charPerms));
+            Console.WriteLine();
+
+            var charPermsRep = GetPermutationsWithRepeats(charArr, charArr.Length);
+
+            Console.WriteLine("Found {0}/{1} permutations with repeats", charPermsRep.Length, CalculateTotalPermutationsWithRepeats(charArr.Length, charArr.Length));
+            Console.WriteLine("Are all permutations unique?\t{0}", AreAllPermutationsUnique(charPermsRep));
+            Console.WriteLine();
+
+            Console.WriteLine("Testing with int[]\n");
+
+            int[] intArr = new int[] {1, 2, 3, 4};
+
+            var intCombs = GetCombinations(intArr, intArr.Length / 2);
+
+            Console.WriteLine("Found {0}/{1} combinations", intCombs.Length, CalculateTotalCombinations(intArr.Length / 2, intArr.Length));
+            Console.WriteLine("Are all combinations unique?\t{0}", AreAllCombinationsUnique(intCombs));
+            Console.WriteLine();
+
+            var intCombsRep = GetCombinationsWithRepeats(intArr, intArr.Length);
+
+            Console.WriteLine("Found {0}/{1} combinations with repeats", intCombsRep.Length, CalculateTotalCombinationsWithRepeats(intArr.Length, intArr.Length));
+            Console.WriteLine("Are all combinations unique?\t{0}", AreAllCombinationsUnique(intCombsRep));
+            Console.WriteLine();
+
+            var intPerms = GetPermutations(intArr, intArr.Length);
+
+            Console.WriteLine("Found {0}/{1} permutations", intPerms.Length, CalculateTotalPermutations(intArr.Length, intArr.Length));
+            Console.WriteLine("Are all permutations unique?\t{0}", AreAllPermutationsUnique(intPerms));
+            Console.WriteLine();
+
+            var intPermsRep = GetPermutationsWithRepeats(intArr, intArr.Length);
+
+            Console.WriteLine("Found {0}/{1} permutations with repeats", intPermsRep.Length, CalculateTotalPermutationsWithRepeats(intArr.Length, intArr.Length));
+            Console.WriteLine("Are all permutations unique?\t{0}", AreAllPermutationsUnique(intPermsRep));
+            Console.WriteLine();
+
+            Console.WriteLine("Testing user defined class array\n");
+
+            Pear[] pears = new Pear[4];
+            
+            for (int i = 0; i < pears.Length; i++) 
+            {
+                pears[i] = new Pear(i);
+            }
+
+            var pearCombs = GetCombinations(pears, pears.Length / 2);
+            Console.WriteLine("Found {0}/{1} combinations", pearCombs.Length, CalculateTotalCombinations(pears.Length / 2, pears.Length));
+
+            Console.WriteLine();
+
+            var pearCombsRep = GetCombinationsWithRepeats(pears, pears.Length);
+            Console.WriteLine("Found {0}/{1} combinations with repeats", pearCombsRep.Length, CalculateTotalCombinationsWithRepeats(pears.Length, pears.Length));
+
+            Console.WriteLine();
+
+            var pearPerms = GetPermutations(pears, pears.Length);
+            Console.WriteLine("Found {0}/{1} permutations", pearPerms.Length, CalculateTotalPermutations(pears.Length, pears.Length));
+
+            Console.WriteLine();
+
+            var pearPermsRep = GetPermutationsWithRepeats(pears, pears.Length);
+            Console.WriteLine("Found {0}/{1} permutations with repeats", pearPermsRep.Length, CalculateTotalPermutationsWithRepeats(pears.Length, pears.Length));
+
+            Console.WriteLine();
+        }        
+
         static private void RandomTests() 
         {
             Random rnd = new Random();
@@ -243,7 +349,7 @@ namespace Sequences
             timer.Reset();
         }
 
-        static private bool AreAllCombinationsUnique(string[][] toTest) 
+        static private bool AreAllCombinationsUnique<T>(T[][] toTest) 
         {
             //runs through a list of combinations to check they are all different
 
@@ -251,7 +357,7 @@ namespace Sequences
 
             for (int i = 0; i < toTest.Length; i++) 
             {
-                string[] toCheck = toTest[i];
+                T[] toCheck = toTest[i];
 
                 //starts at i + 1 to prevent double checking
                 for (int j = i + 1; j < toTest.Length; j++) 
@@ -272,13 +378,13 @@ namespace Sequences
             return allUnique;
         }
 
-        static private bool checkCombinationsDiffer(string[] toCheck, string[] testAgainst) 
+        static private bool checkCombinationsDiffer<T>(T[] toCheck, T[] testAgainst) 
         {
             //checks the amount of each value in both combinations differ
 
             bool result = false;
 
-            foreach (string val in toCheck) 
+            foreach (var val in toCheck) 
             {
                 //counts number of each value in both combinations
                 int numInToCheck = 0;
@@ -286,12 +392,12 @@ namespace Sequences
 
                 for (int i = 0; i < testAgainst.Length; i++) 
                 {
-                    if (toCheck[i] == val) 
+                    if (Convert.ToString(toCheck[i]) == Convert.ToString(val))
                     {
                         numInToCheck++;
                     }
 
-                    if (testAgainst[i] == val) 
+                    if (Convert.ToString(testAgainst[i]) == Convert.ToString(val)) 
                     {
                         numInTestAgainst++;
                     }
@@ -307,7 +413,7 @@ namespace Sequences
             return result;
         }
 
-        static private bool AreAllPermutationsUnique(string[][] toTest) 
+        static private bool AreAllPermutationsUnique<T>(T[][] toTest) 
         {
             //runs through a list of permutations to check they are all different
 
@@ -315,7 +421,7 @@ namespace Sequences
 
             for (int i = 0; i < toTest.Length; i++) 
             {
-                string[] toCheck = toTest[i];
+                T[] toCheck = toTest[i];
 
                 //starts at i + 1 to prevent double checking
                 for (int j = i + 1; j < toTest.Length; j++) 
@@ -331,7 +437,7 @@ namespace Sequences
             return result;
         }
 
-        static private bool CheckPermutationsDiffer(string[] toCheck, string[] testAgainst) 
+        static private bool CheckPermutationsDiffer<T>(T[] toCheck, T[] testAgainst) 
         {
             //checks the equivalent positions in two permutaions are different
 
@@ -339,7 +445,7 @@ namespace Sequences
 
             for (int i = 0; i < toCheck.Length; i++) 
             {
-                if (toCheck[i] != testAgainst[i]) 
+                if (Convert.ToString(toCheck[i]) != Convert.ToString(testAgainst[i])) 
                 {
                     result = true;
                     break;
@@ -347,6 +453,21 @@ namespace Sequences
             }
 
             return result;
+        }
+    }
+
+    public class Pear 
+    {
+        private int pearNum;
+
+        public Pear(int num) 
+        {
+            pearNum = num;
+        }
+
+        public string GetName() 
+        {
+            return "PEAR" + pearNum.ToString();
         }
     }
 }
