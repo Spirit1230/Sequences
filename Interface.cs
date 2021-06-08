@@ -5,65 +5,65 @@ namespace Sequences
 {
     static public partial class Combinations 
     {
-        static public string[][] GetCombinations(string[] allVals, int numChosen) 
+        static public T[][] GetCombinations<T>(T[] allVals, int numChosen) 
         {
             //Finds all the different combinations without any repeated values from an array of values
 
             int[][] allCombsInt = FindAllCombinations(ConvertToIntArray(allVals), numChosen, false);
 
-            List<string[]> allCombs = new List<string[]>();
+            List<T[]> allCombs = new List<T[]>();
 
             foreach (int[] combInt in allCombsInt) 
             {
-                allCombs.Add(ConvertToStringArr(combInt, allVals));
+                allCombs.Add(ConvertToTArr(combInt, allVals));
             }
 
             return allCombs.ToArray();
         }
 
-        static public string[][] GetCombinationsWithRepeats(string[] allVals, int numChosen) 
+        static public T[][] GetCombinationsWithRepeats<T>(T[] allVals, int numChosen) 
         {
             //Finds all the different combinations with repeated values from an array of values
 
             int[][] allCombsInt = FindAllCombinations(ConvertToIntArray(allVals), numChosen, true);
 
-            List<string[]> allCombs = new List<string[]>();
+            List<T[]> allCombs = new List<T[]>();
 
             foreach (int[] combInt in allCombsInt) 
             {
-                allCombs.Add(ConvertToStringArr(combInt, allVals));
+                allCombs.Add(ConvertToTArr(combInt, allVals));
             }
 
             return allCombs.ToArray();
         }
 
-        static public string[][] GetPermutations(string[] allVals, int numChosen) 
+        static public T[][] GetPermutations<T>(T[] allVals, int numChosen) 
         {
             //Finds all the different permutations without repeated values from an array of values
 
             int[][] allPermsInt = FindAllPermutations(ConvertToIntArray(allVals), numChosen, false);
 
-            List<string[]> allPerms = new List<string[]>();
+            List<T[]> allPerms = new List<T[]>();
 
             foreach (int[] permInt in allPermsInt) 
             {
-                allPerms.Add(ConvertToStringArr(permInt, allVals));
+                allPerms.Add(ConvertToTArr(permInt, allVals));
             }
 
             return allPerms.ToArray();
         }
 
-        static public string[][] GetPermutationsWithRepeats(string[] allVals, int numChosen) 
+        static public T[][] GetPermutationsWithRepeats<T>(T[] allVals, int numChosen) 
         {
             //Finds all the different permutations with repeated values from an array of values
 
             int[][] allPermsInt = FindAllPermutations(ConvertToIntArray(allVals), numChosen, true);
 
-            List<string[]> allPerms = new List<string[]>();
+            List<T[]> allPerms = new List<T[]>();
 
             foreach (int[] permInt in allPermsInt) 
             {
-                allPerms.Add(ConvertToStringArr(permInt, allVals));
+                allPerms.Add(ConvertToTArr(permInt, allVals));
             }
 
             return allPerms.ToArray();

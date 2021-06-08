@@ -2,7 +2,7 @@ namespace Sequences
 {
     static public partial class Combinations 
     {
-        static private int[] ConvertToIntArray(string[] stringArr) 
+        static private int[] ConvertToIntArray<T>(T[] stringArr) 
         {
             //Converts a string array to an array of numbers
             //Repeated values in the string array will be assigned different numbers
@@ -17,16 +17,16 @@ namespace Sequences
             return intArr;
         }
 
-        static private string[] ConvertToStringArr(int[] intArray, string[] stringArr) 
+        static private T[] ConvertToTArr<T>(int[] intArray, T[] mapArr) 
         {
             //Converts the int array to a string array
             //stringArr parameter is used as a key to translate the int array
 
-            string[] convArr = new string[intArray.Length];
+            T[] convArr = new T[intArray.Length];
 
             for (int i = 0; i < intArray.Length; i++) 
             {
-                convArr[i] = stringArr[intArray[i]];
+                convArr[i] = mapArr[intArray[i]];
             }
 
             return convArr;
